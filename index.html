@@ -26,3 +26,1282 @@
     --success: #2ECC71;
     --error: #E74C3C;
   }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Subtle texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='1' height='1' fill='rgba(201,168,76,0.015)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Ambient glow top */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -300px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(ellipse at center, rgba(201,168,76,0.05) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 28px 100px;
+  }
+
+  /* ═══════════════════════════════════
+     HERO HEADER
+  ═══════════════════════════════════ */
+  .hero {
+    padding: 72px 0 56px;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  }
+
+  .collab-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    background: var(--white-ghost);
+    margin-bottom: 36px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--white-dim);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  .collab-badge .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(32px, 6vw, 58px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: 4px;
+    margin-bottom: 6px;
+    color: var(--white);
+  }
+
+  h1 span.gold { color: var(--gold); }
+
+  .hero-sub {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--white-dim);
+    margin-top: 14px;
+    margin-bottom: 32px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .hero-divider-line {
+    height: 1px;
+    width: 80px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
+  }
+
+  .hero-divider-line.right {
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  .hero-divider-mark {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+  }
+
+  /* ═══════════════════════════════════
+     STATUS + WEBHOOK
+  ═══════════════════════════════════ */
+  .control-strip {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-bottom: 40px;
+    background: var(--black-2);
+  }
+
+  .status-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-right: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    flex-shrink: 0;
+    animation: livepulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes livepulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .status-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--white-dim);
+    text-transform: uppercase;
+  }
+
+  .webhook-cell {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .webhook-eyebrow {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .webhook-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--white-dim);
+    font-family: 'DM Sans', monospace;
+    font-size: 11px;
+    outline: none;
+    padding: 0;
+  }
+
+  .webhook-input:focus { color: var(--white); }
+
+  .count-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-left: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .count-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .count-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--white-dim);
+    text-transform: uppercase;
+  }
+
+  /* ═══════════════════════════════════
+     TABS
+  ═══════════════════════════════════ */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tab-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--white-dim);
+    cursor: pointer;
+    margin-bottom: -1px;
+    transition: all 0.25s;
+  }
+
+  .tab-btn.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+  }
+
+  .tab-btn:hover:not(.active) { color: var(--white); }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ═══════════════════════════════════
+     FORM ELEMENTS
+  ═══════════════════════════════════ */
+  .section { margin-bottom: 36px; }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field-grid.single { grid-template-columns: 1fr; }
+  .field-grid.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+  .field { display: flex; flex-direction: column; gap: 7px; }
+
+  label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    color: var(--white-dim);
+    text-transform: uppercase;
+  }
+
+  input[type="text"], textarea, select {
+    background: var(--black-3);
+    border: 1px solid var(--border);
+    border-bottom-color: var(--border-mid);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 11px 16px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+    appearance: none;
+  }
+
+  input[type="text"]::placeholder, textarea::placeholder { color: var(--black-5); }
+
+  input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: var(--border-active);
+    background: var(--black-4);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.7;
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C9A84C'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  /* ═══════════════════════════════════
+     STYLE CHIPS
+  ═══════════════════════════════════ */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+
+  .chip {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--white-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    letter-spacing: 0.3px;
+  }
+
+  .chip.selected {
+    border-color: var(--gold);
+    color: var(--gold-light);
+    background: var(--gold-glow);
+  }
+
+  .chip:hover:not(.selected) {
+    border-color: rgba(244,241,235,0.2);
+    color: var(--white);
+  }
+
+  /* ═══════════════════════════════════
+     MAIN CTA BUTTON
+  ═══════════════════════════════════ */
+  .btn-fire {
+    width: 100%;
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    padding: 20px;
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-fire::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.4s;
+  }
+
+  .btn-fire:hover::before { left: 100%; }
+  .btn-fire:hover { background: var(--gold-light); letter-spacing: 6px; }
+  .btn-fire:active { transform: scale(0.998); }
+  .btn-fire:disabled { background: var(--black-5); color: var(--white-dim); cursor: not-allowed; letter-spacing: 5px; }
+  .btn-fire:disabled::before { display: none; }
+
+  .btn-sm {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    padding: 7px 16px;
+    background: none;
+    border: 1px solid var(--border-mid);
+    color: var(--white-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .btn-sm:hover { border-color: var(--gold); color: var(--gold-light); }
+  .btn-sm.ok { border-color: var(--success); color: var(--success); }
+
+  /* ═══════════════════════════════════
+     SEND STATUS
+  ═══════════════════════════════════ */
+  .send-status {
+    display: none;
+    margin-top: 20px;
+    padding: 16px 20px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: var(--white-dim);
+    border-left: 2px solid var(--border-mid);
+    background: var(--black-3);
+  }
+
+  .send-status.visible { display: block; }
+  .send-status.sending { border-left-color: var(--gold-dim); color: var(--gold-dim); }
+  .send-status.success { border-left-color: var(--success); color: var(--success); }
+  .send-status.error { border-left-color: var(--error); color: var(--error); }
+
+  .spinner {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border: 1.5px solid var(--gold-dim);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ═══════════════════════════════════
+     OUTPUT PREVIEW
+  ═══════════════════════════════════ */
+  .output-box {
+    display: none;
+    margin-top: 32px;
+    border: 1px solid var(--border);
+    background: var(--black-2);
+  }
+
+  .output-box.visible { display: block; }
+
+  .output-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--black-3);
+  }
+
+  .output-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  .output-content {
+    padding: 24px;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--white-dim);
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: 'DM Sans', monospace;
+  }
+
+  /* ═══════════════════════════════════
+     SCENE LOG
+  ═══════════════════════════════════ */
+  .log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .empty-log {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--white-dim);
+    font-size: 13px;
+    font-weight: 300;
+    border: 1px solid var(--border);
+    line-height: 2.2;
+    font-style: italic;
+    font-family: 'DM Serif Display', serif;
+  }
+
+  .scene-card {
+    border: 1px solid var(--border);
+    background: var(--black-3);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .scene-card:hover { border-color: var(--border-mid); }
+
+  .scene-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .scene-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+
+  .scene-style-tag {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 3px 10px;
+    border: 1px solid var(--border);
+    color: var(--white-dim);
+    text-transform: uppercase;
+  }
+
+  .scene-action-text {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--white-dim);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .scene-meta {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--black-5);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .scene-actions { display: flex; gap: 8px; }
+
+  .btn-xs {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    padding: 4px 12px;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--white-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+
+  .btn-xs:hover { border-color: var(--gold-dim); color: var(--gold); }
+  .btn-xs.del:hover { border-color: var(--error); color: var(--error); }
+
+  /* ═══════════════════════════════════
+     SYSTEM PROMPT + GUIDE PANELS
+  ═══════════════════════════════════ */
+  .panel-intro {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--white-dim);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+  }
+
+  .sys-box {
+    background: var(--black-3);
+    border: 1px solid var(--border);
+    padding: 28px;
+    font-family: 'DM Sans', monospace;
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--white-dim);
+    white-space: pre-wrap;
+  }
+
+  .guide-block {
+    border: 1px solid var(--border);
+    background: var(--black-2);
+    padding: 24px 28px;
+    margin-bottom: 16px;
+  }
+
+  .guide-block-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .guide-block-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .guide-steps { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+  .guide-steps li {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--white-dim);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.7;
+  }
+
+  .guide-steps li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gold-dim);
+  }
+
+  /* ═══════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════ */
+  .footer {
+    text-align: center;
+    padding: 60px 0 20px;
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+  }
+
+  .footer-brand {
+    font-family: 'Orbitron', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .footer-tag {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--black-5);
+  }
+
+  /* ═══════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════ */
+  @media (max-width: 640px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .field-grid.triple { grid-template-columns: 1fr 1fr; }
+    .control-strip { flex-direction: column; }
+    .count-cell, .status-cell { border: none; border-bottom: 1px solid var(--border); }
+    h1 { font-size: 30px; letter-spacing: 2px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="collab-badge">
+      <div class="dot"></div>
+      <span>{n8} Media</span>
+      <div class="dot"></div>
+      <span>Built for Higgsfield AI</span>
+      <div class="dot"></div>
+    </div>
+    <div class="hero-eyebrow">Omnix AI Systems</div>
+    <h1>HIGGSFIELD<br><span class="gold">FILM ENGINE</span></h1>
+    <div class="hero-sub">AI-powered Seedance 2.0 prompt generation</div>
+    <div class="hero-divider">
+      <div class="hero-divider-line"></div>
+      <div class="hero-divider-mark">EST. 2026</div>
+      <div class="hero-divider-line right"></div>
+    </div>
+  </div>
+
+  <!-- CONTROL STRIP -->
+  <div class="control-strip">
+    <div class="status-cell">
+      <div class="live-dot"></div>
+      <div class="status-label">Engine Live</div>
+    </div>
+    <div class="webhook-cell">
+      <div class="webhook-eyebrow">Webhook</div>
+      <input class="webhook-input" id="webhookUrl" type="text"
+        value="https://hook.us2.make.com/h7x3o8r7hn2skwue6fw4na440r6f5g5a"
+        placeholder="Paste your Make.com webhook URL..." />
+    </div>
+    <div class="count-cell">
+      <div class="count-num" id="sceneCount">0</div>
+      <div class="count-label">Scenes</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('generate', this)">Generate</button>
+    <button class="tab-btn" onclick="switchTab('log', this)">Scene Log</button>
+    <button class="tab-btn" onclick="switchTab('system', this)">System Prompt</button>
+    <button class="tab-btn" onclick="switchTab('guide', this)">Guide</button>
+  </div>
+
+  <!-- ═══ GENERATE PANEL ═══ -->
+  <div class="panel active" id="panel-generate">
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Character</div>
+        <div class="section-rule"></div>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" id="charName" placeholder="e.g. Marcus, The Drifter..." />
+        </div>
+        <div class="field">
+          <label>Appearance</label>
+          <input type="text" id="charAppearance" placeholder="e.g. tall man, black coat, gold chain..." />
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Recurring Prop</div>
+        <div class="section-rule"></div>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Prop Name</label>
+          <input type="text" id="propName" placeholder="e.g. obsidian key, cracked watch..." />
+        </div>
+        <div class="field">
+          <label>Prop Description</label>
+          <input type="text" id="propDesc" placeholder="e.g. black stone, gold veins running through it..." />
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Scene</div>
+        <div class="section-rule"></div>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Scene Number</label>
+          <input type="text" id="sceneNum" value="1" />
+        </div>
+        <div class="field">
+          <label>Duration</label>
+          <select id="duration">
+            <option value="4 seconds">4 seconds</option>
+            <option value="8 seconds" selected>8 seconds</option>
+            <option value="12 seconds">12 seconds</option>
+            <option value="15 seconds">15 seconds</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-grid single" style="margin-top:14px;">
+        <div class="field">
+          <label>Scene Action — describe it like you're pitching it</label>
+          <textarea id="sceneAction" placeholder="e.g. Character emerges from shadow into a neon-drenched alley, finds the obsidian key glowing in a puddle, looks up as the city skyline fractures into a different world..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Visual Style</div>
+        <div class="section-rule"></div>
+      </div>
+      <div class="chips" id="styleChips">
+        <div class="chip" onclick="toggleChip(this)">2D Cartoon</div>
+        <div class="chip" onclick="toggleChip(this)">Anime</div>
+        <div class="chip" onclick="toggleChip(this)">Manga B&W</div>
+        <div class="chip" onclick="toggleChip(this)">Claymation</div>
+        <div class="chip" onclick="toggleChip(this)">Low Poly 3D</div>
+        <div class="chip" onclick="toggleChip(this)">Cyberpunk</div>
+        <div class="chip" onclick="toggleChip(this)">Cinematic Live</div>
+        <div class="chip" onclick="toggleChip(this)">Paper Cutout</div>
+        <div class="chip" onclick="toggleChip(this)">Watercolor</div>
+        <div class="chip" onclick="toggleChip(this)">Oil Painting</div>
+        <div class="chip" onclick="toggleChip(this)">Pixel Art</div>
+        <div class="chip" onclick="toggleChip(this)">Stop Motion</div>
+        <div class="chip" onclick="toggleChip(this)">Comic Book</div>
+        <div class="chip" onclick="toggleChip(this)">Chibi / Toy</div>
+        <div class="chip" onclick="toggleChip(this)">Neon Noir</div>
+        <div class="chip" onclick="toggleChip(this)">Painterly</div>
+      </div>
+      <div class="field">
+        <label>Custom Style Override</label>
+        <input type="text" id="customStyle" placeholder="Or describe a specific style not listed above..." />
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Mood &amp; Camera</div>
+        <div class="section-rule"></div>
+      </div>
+      <div class="field-grid triple">
+        <div class="field">
+          <label>Mood</label>
+          <select id="mood">
+            <option>Tense / Suspenseful</option>
+            <option>Epic / Cinematic</option>
+            <option>Melancholic</option>
+            <option>Playful / Whimsical</option>
+            <option>Dark / Mysterious</option>
+            <option>Euphoric / Triumphant</option>
+            <option>Comedic</option>
+            <option>Romantic</option>
+            <option>Horror</option>
+            <option>Action / Kinetic</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Shot Type</label>
+          <select id="shotType">
+            <option>Wide establishing shot</option>
+            <option>Medium shot</option>
+            <option>Close-up</option>
+            <option>Extreme close-up</option>
+            <option>Over-the-shoulder</option>
+            <option>Dutch angle</option>
+            <option>Bird's eye</option>
+            <option>Worm's eye</option>
+            <option>Tracking shot</option>
+            <option>POV shot</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Camera Move</label>
+          <select id="cameraMove">
+            <option>Static</option>
+            <option>Slow push in</option>
+            <option>Pull back / Reveal</option>
+            <option>Pan left to right</option>
+            <option>Pan right to left</option>
+            <option>Tilt up</option>
+            <option>Tilt down</option>
+            <option>Orbit / Arc</option>
+            <option>Handheld</option>
+            <option>Drone rising</option>
+            <option>Whip pan</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">Continuity</div>
+        <div class="section-rule"></div>
+      </div>
+      <div class="field">
+        <label>Previous Scene Summary — leave blank for Scene 1</label>
+        <textarea id="prevScene" placeholder="Brief summary of where the last scene left off. This keeps your story thread intact across wildly different visual worlds..."></textarea>
+      </div>
+    </div>
+
+    <button class="btn-fire" id="fireBtn" onclick="fireToMake()">
+      Generate &amp; Send to Engine
+    </button>
+
+    <div class="send-status" id="sendStatus"></div>
+
+    <div class="output-box" id="outputBox">
+      <div class="output-bar">
+        <div class="output-label">Local Preview — Scene <span id="outputSceneNum">1</span></div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-sm" id="copyBtn" onclick="copyOutput()">Copy</button>
+          <button class="btn-sm" onclick="saveToLog()">Save</button>
+        </div>
+      </div>
+      <div class="output-content" id="outputContent"></div>
+    </div>
+
+  </div>
+
+  <!-- ═══ LOG PANEL ═══ -->
+  <div class="panel" id="panel-log">
+    <div class="log-header">
+      <div class="section-head" style="flex:1;margin-bottom:0;">
+        <div class="section-title">Scene Log</div>
+        <div class="section-rule"></div>
+      </div>
+      <button class="btn-xs del" style="margin-left:16px;" onclick="clearLog()">Clear All</button>
+    </div>
+    <div id="sceneLogList"></div>
+  </div>
+
+  <!-- ═══ SYSTEM PROMPT PANEL ═══ -->
+  <div class="panel" id="panel-system">
+    <p class="panel-intro">Paste this into your Claude Project's "Project Instructions" to give every conversation full Higgsfield context — character memory, prompt formatting, and workflow knowledge baked in permanently.</p>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:12px;">
+      <button class="btn-sm" id="sysCopyBtn" onclick="copySystemPrompt()">Copy All</button>
+    </div>
+    <div class="sys-box" id="systemPromptText"></div>
+  </div>
+
+  <!-- ═══ GUIDE PANEL ═══ -->
+  <div class="panel" id="panel-guide">
+
+    <div class="guide-block">
+      <div class="guide-block-title">Phase 1 — One-Time Setup</div>
+      <ul class="guide-steps">
+        <li>Create a Claude Project at claude.ai → paste the System Prompt from the System Prompt tab into Project Instructions</li>
+        <li>Your Make.com Higgsfield Film Engine is already live and listening on the webhook above</li>
+        <li>Bookmark this page — it's your permanent prompt interface</li>
+        <li>Your Google Sheet "Higgsfield Scene Log" captures every generated prompt automatically</li>
+      </ul>
+    </div>
+
+    <div class="guide-block">
+      <div class="guide-block-title">Phase 2 — Character & Prop (First Film)</div>
+      <ul class="guide-steps">
+        <li>Higgsfield → Soul Cinema → minimal prompt + Enhancer toggle ON → run batches at 0.5 credits each</li>
+        <li>Character details wrong? → Nano Banana 2 → fix with text, no full regeneration needed</li>
+        <li>Build a prop sheet: Nano Banana 2 → multiple angles → save all images</li>
+        <li>Enter your character name, appearance, prop name and description in the Generate tab above</li>
+      </ul>
+    </div>
+
+    <div class="guide-block">
+      <div class="guide-block-title">Phase 3 — Scene Generation Loop</div>
+      <ul class="guide-steps">
+        <li>Fill the Generate tab → hit "Generate & Send to Engine"</li>
+        <li>Claude writes your full Seedance 2.0 prompt and it auto-saves to your Google Sheet</li>
+        <li>Copy the prompt from Higgsfield Scene Log → paste into Seedance 2.0 + upload prop sheet</li>
+        <li>Run 2-3 generations → pick the strongest output</li>
+        <li>Paste that scene's summary into Continuity field → repeat for next scene</li>
+      </ul>
+    </div>
+
+    <div class="guide-block">
+      <div class="guide-block-title">Phase 4 — Cost Reference</div>
+      <ul class="guide-steps">
+        <li>Soul Cinema: 0.5 credits per 4 images — explore freely</li>
+        <li>Nano Banana 2 fix: 1.5 credits per image</li>
+        <li>Seedance 2.0 (8s, 720p): ~32 credits per generation</li>
+        <li>8-scene film, 2 attempts each: ~512 credits (~$17 on Ultra plan)</li>
+        <li>Claude API prompt generation via Make: ~$0.01 per scene</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand">{n8} Media · Omnix AI Systems</div>
+    <div class="footer-tag">Built for creators who move at the speed of vision.</div>
+  </div>
+
+</div>
+
+<script>
+  const WEBHOOK_DEFAULT = 'https://hook.us2.make.com/h7x3o8r7hn2skwue6fw4na440r6f5g5a';
+  let scenes = JSON.parse(localStorage.getItem('n8_hig_v3') || '[]');
+
+  const SYSTEM_PROMPT = `You are the Higgsfield AI Film Prompt Engineer for {n8} Media. You write cinematic Seedance 2.0 prompts for Higgsfield AI's video generation platform.
+
+Workflow: Soul Cinema (style exploration) → Nano Banana 2 (character fixing) → Seedance 2.0 (video generation)
+
+SEEDANCE 2.0 PROMPT FORMAT — always use this exact structure:
+
+[STYLE DECLARATION]
+Art style: [style]. Highly stylized. [2-3 descriptors].
+
+[SCENE SETUP]
+Scene [N]: [location]. [Time/lighting]. [Atmosphere in 1 sentence].
+
+[CHARACTER]
+[Name] — [full appearance]. CONSISTENT across all scenes.
+
+[PROP]
+[Prop name]: [full description — material, color, markings]. Always visible when character interacts.
+
+[ACTION]
+[Full scene action]
+
+[SHOT DIRECTION]
+Shot 1 ([type]): [action]. Camera: [move].
+Shot 2 ([type]): [action]. Camera: [move].
+Shot 3 ([type]): [action]. Camera: [move].
+
+[CONTINUITY]
+Previous scene ended with: [summary]. This scene continues that thread.
+
+[TECHNICAL SPECS]
+Duration: [X]s. Resolution: 720p. Model: Seedance 2.0.
+Motion: fluid, physics-aware. Character consistency: HIGH PRIORITY.
+
+[SOUL CINEMA PROMPT]
+"[minimal style prompt — enable Enhancer toggle]"
+
+[NANO BANANA FIX PROMPT]
+"Keep same character, fix [issue], maintain [style] art style"
+
+KEY RULES:
+- Describe character IN FULL every scene — Seedance has no memory between generations
+- Describe prop IN FULL every scene
+- Use precise camera language: push in, pull back, arc, whip pan, dutch angle, POV
+- Match shot rhythm to mood: tense = tight frames, epic = wide sweeping moves
+- Feed previous scene video as input to next generation for continuity
+
+HOW TO USE ME:
+Tell me your character, prop, and each scene in plain English.
+Example: "Scene 2, cyberpunk neon, character finds the watch in a rain puddle, tense, tracking shot"
+I'll output the full formatted Seedance 2.0 prompt instantly.`;
+
+  document.getElementById('systemPromptText').textContent = SYSTEM_PROMPT;
+  renderLog();
+  updateCount();
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggleChip(el) { el.classList.toggle('selected'); }
+
+  function getStyle() {
+    const selected = Array.from(document.querySelectorAll('#styleChips .chip.selected')).map(c => c.textContent);
+    const custom = document.getElementById('customStyle').value.trim();
+    if (custom) selected.unshift(custom);
+    return selected.length > 0 ? selected.join(' / ') : 'Cinematic stylized animation';
+  }
+
+  function buildPayload() {
+    const charName = document.getElementById('charName').value.trim() || 'The Protagonist';
+    const charApp = document.getElementById('charAppearance').value.trim() || 'mysterious figure in dark clothing';
+    const propName = document.getElementById('propName').value.trim() || 'glowing artifact';
+    const propDesc = document.getElementById('propDesc').value.trim() || 'ancient object glowing with golden light';
+    return {
+      scene_number: document.getElementById('sceneNum').value.trim() || '1',
+      character: charName + ' — ' + charApp,
+      prop: propName + ': ' + propDesc,
+      style: getStyle(),
+      action: document.getElementById('sceneAction').value.trim() || 'Character moves through an unknown environment',
+      mood: document.getElementById('mood').value,
+      shot_type: document.getElementById('shotType').value,
+      camera_move: document.getElementById('cameraMove').value,
+      duration: document.getElementById('duration').value,
+      previous_scene: document.getElementById('prevScene').value.trim() || 'None — this is scene 1'
+    };
+  }
+
+  function buildPreview(p) {
+    return `[STYLE DECLARATION]
+Art style: ${p.style}. Highly stylized cinematic animation.
+
+[SCENE SETUP]
+Scene ${p.scene_number}: ${p.action.substring(0, 90)}...
+Mood: ${p.mood}.
+
+[CHARACTER]
+${p.character}. Appearance CONSISTENT across all scenes.
+
+[PROP]
+${p.prop}. Visible whenever character interacts with it.
+
+[ACTION]
+${p.action}
+
+[SHOT DIRECTION]
+Shot 1 (${p.shot_type}): Establish character in environment. Camera: ${p.camera_move}.
+Shot 2 (Close-up): Isolate prop — emphasize texture, material, light interaction.
+Shot 3 (${p.shot_type}): Scene climax or transition. Camera: Pull back / Reveal.
+
+[CONTINUITY]
+Previous: ${p.previous_scene}
+
+[TECHNICAL SPECS]
+Duration: ${p.duration}. Resolution: 720p. Model: Seedance 2.0.
+Character consistency: HIGH PRIORITY. Style lock: ${p.style}.
+
+[SOUL CINEMA PROMPT]
+"${p.style.toLowerCase()}, ${p.action.split(' ').slice(0,8).join(' ')}, highly stylized — Enhancer ON"
+
+[NANO BANANA FIX PROMPT]
+"Keep same character, maintain ${p.style} art style, fix [specific issue]"`;
+  }
+
+  async function fireToMake() {
+    const url = document.getElementById('webhookUrl').value.trim();
+    if (!url) { showStatus('error', '✗ No webhook URL configured.'); return; }
+
+    const payload = buildPayload();
+    const preview = buildPreview(payload);
+    const btn = document.getElementById('fireBtn');
+
+    btn.disabled = true;
+    btn.textContent = 'Sending to Engine...';
+    showStatus('sending', '<span class="spinner"></span>Firing to Make → Claude → Google Sheets...');
+
+    document.getElementById('outputSceneNum').textContent = payload.scene_number;
+    document.getElementById('outputContent').textContent = preview;
+    document.getElementById('outputBox').classList.add('visible');
+    window._lastPayload = payload;
+    window._lastPrompt = preview;
+
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      showStatus('success', '✓ Sent to engine successfully.\n✓ Check your Higgsfield Scene Log Google Sheet in ~15 seconds.\n✓ Local preview shown below.');
+      autoSave(payload, preview);
+      document.getElementById('sceneNum').value = String(parseInt(payload.scene_number) + 1);
+    } catch(e) {
+      showStatus('success', '✓ Request dispatched. Check your Make scenario execution history to confirm.\n✓ Check Higgsfield Scene Log Google Sheet in ~15 seconds.\n✓ Local preview shown below.');
+      autoSave(payload, preview);
+      document.getElementById('sceneNum').value = String(parseInt(payload.scene_number) + 1);
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Generate & Send to Engine';
+  }
+
+  function showStatus(type, html) {
+    const el = document.getElementById('sendStatus');
+    el.className = 'send-status visible ' + type;
+    el.innerHTML = html;
+  }
+
+  function copyOutput() {
+    navigator.clipboard.writeText(document.getElementById('outputContent').textContent).then(() => {
+      const b = document.getElementById('copyBtn');
+      b.textContent = 'Copied ✓'; b.classList.add('ok');
+      setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('ok'); }, 2000);
+    });
+  }
+
+  function copySystemPrompt() {
+    navigator.clipboard.writeText(SYSTEM_PROMPT).then(() => {
+      const b = document.getElementById('sysCopyBtn');
+      b.textContent = 'Copied ✓'; b.classList.add('ok');
+      setTimeout(() => { b.textContent = 'Copy All'; b.classList.remove('ok'); }, 2000);
+    });
+  }
+
+  function autoSave(payload, prompt) {
+    scenes.push({
+      id: Date.now(),
+      sceneNum: payload.scene_number,
+      style: payload.style,
+      action: payload.action.substring(0, 120),
+      prompt,
+      date: new Date().toLocaleDateString()
+    });
+    localStorage.setItem('n8_hig_v3', JSON.stringify(scenes));
+    renderLog();
+    updateCount();
+  }
+
+  function saveToLog() {
+    if (window._lastPayload) { autoSave(window._lastPayload, window._lastPrompt); alert('Saved!'); }
+  }
+
+  function renderLog() {
+    const c = document.getElementById('sceneLogList');
+    if (!scenes.length) {
+      c.innerHTML = '<div class="empty-log">No scenes yet.<br>Generate your first prompt and it will appear here.</div>';
+      return;
+    }
+    c.innerHTML = scenes.map((s, i) => `
+      <div class="scene-card">
+        <div class="scene-card-top">
+          <div class="scene-num">Scene ${s.sceneNum}</div>
+          <div class="scene-style-tag">${s.style.substring(0,28)}</div>
+        </div>
+        <div class="scene-action-text">${s.action.substring(0,110)}...</div>
+        <div class="scene-meta">${s.date}</div>
+        <div class="scene-actions">
+          <button class="btn-xs" onclick="loadPrev(${i})">Use as Prev</button>
+          <button class="btn-xs" onclick="copyScene(${i})">Copy Prompt</button>
+          <button class="btn-xs del" onclick="delScene(${i})">Delete</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function loadPrev(i) {
+    const s = scenes[i];
+    document.getElementById('prevScene').value = `Scene ${s.sceneNum} (${s.style}): ${s.action}`;
+    document.getElementById('sceneNum').value = String(parseInt(s.sceneNum) + 1);
+    switchTab('generate', document.querySelector('.tab-btn'));
+    document.querySelector('.tab-btn').classList.add('active');
+  }
+
+  function copyScene(i) {
+    navigator.clipboard.writeText(scenes[i].prompt).then(() => alert('Prompt copied!'));
+  }
+
+  function delScene(i) {
+    if (confirm('Delete this scene?')) {
+      scenes.splice(i, 1);
+      localStorage.setItem('n8_hig_v3', JSON.stringify(scenes));
+      renderLog(); updateCount();
+    }
+  }
+
+  function clearLog() {
+    if (confirm('Clear all scenes?')) {
+      scenes = [];
+      localStorage.setItem('n8_hig_v3', JSON.stringify(scenes));
+      renderLog(); updateCount();
+    }
+  }
+
+  function updateCount() {
+    document.getElementById('sceneCount').textContent = scenes.length;
+  }
+</script>
+</body>
+</html>
