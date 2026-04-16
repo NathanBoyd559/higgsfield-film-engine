@@ -1,150 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Higgsfield Film Engine v3</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap');
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #050505; color: #e0d0b0; font-family: 'Inter', sans-serif; min-height: 100vh; font-weight: 300; }
-  header { background: #050505; border-bottom: 1px solid #1a1a1a; padding: 40px 60px; display: flex; align-items: flex-end; justify-content: space-between; }
-  .brand-group h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 400; letter-spacing: 2px; color: #f0c040; margin-bottom: 4px; }
-  .brand-group p { font-family: 'Playfair Display', serif; font-style: italic; color: #807050; font-size: 0.9rem; letter-spacing: 1px; }
-  .meta-tag { color: #505050; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
-  main { max-width: 1200px; margin: 0 auto; padding: 60px 40px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; }
-  .intro { grid-column: 1 / -1; border-bottom: 1px solid #1a1a1a; padding-bottom: 40px; margin-bottom: 20px; }
-  .intro h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 12px; color: #f0c040; }
-  .intro p { color: #888; line-height: 1.8; font-size: 0.95rem; max-width: 700px; }
-  .form-container { position: sticky; top: 40px; }
-  .luxury-label { display: block; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #605030; margin-bottom: 12px; border-left: 2px solid #f0c040; padding-left: 12px; }
-  .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-  .field-group { display: flex; flex-direction: column; }
-  .field-group.full { grid-column: 1 / -1; }
-  input, select, textarea { background: transparent; border: none; border-bottom: 1px solid #222; color: #e0d0b0; padding: 12px 0; font-size: 1rem; font-family: 'Inter', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-  input:focus, select:focus, textarea:focus { outline: none; border-bottom-color: #f0c040; }
-  textarea { min-height: 80px; resize: none; }
-  .luxury-btn { background: #f0c040; color: #050505; border: none; padding: 18px 45px; font-size: 0.85rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.4s; position: relative; overflow: hidden; margin-top: 20px; }
-  .luxury-btn:hover { background: #fff; transform: scale(1.02); box-shadow: 0 10px 30px rgba(240,192,64,0.1); }
-  .output-section { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 40px; position: relative; }
-  .output-section h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 24px; color: #f0c040; display: flex; align-items: center; }
-  .output-section h3::after { content: ''; height: 1px; flex-grow: 1; background: #1a1a1a; margin-left: 20px; }
-  .prompt-display { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; line-height: 1.8; color: #c0b090; white-space: pre-wrap; margin-bottom: 30px; }
-  .copy-hint { font-size: 0.7rem; color: #444; letter-spacing: 1px; text-transform: uppercase; }
-  .scene-history h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 30px; color: #404040; }
-  .history-item { padding: 20px 0; border-bottom: 1px solid #1a1a1a; transition: all 0.3s; }
-  .history-item:hover { transform: translateX(10px); }
-  .history-item .num { font-size: 0.7rem; color: #f0c040; margin-bottom: 8px; display: block; }
-  .history-item .title { font-size: 1rem; color: #a09070; margin-bottom: 4px; }
-  .history-item .meta { font-size: 0.75rem; color: #444; }
-  footer { padding: 80px 60px 40px; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; align-items: center; color: #333; font-size: 0.7rem; letter-spacing: 2px; }
-  .empty-state { color: #222; font-style: italic; padding: 40px 0; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Higgsfield Film Engine v3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=DM+Sans:wght@300;400;700&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark-gold: #aa8a2e;
+            --black: #0a0a0a;
+            --dark-grey: #1a1a1a;
+            --light-grey: #f5f5f5;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--black);
+            color: var(--light-grey);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--dark-grey);
+        }
+
+        .brand-meta {
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: #555;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+            letter-spacing: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--dark-gold);
+            letter-spacing: 1px;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .form-container {
+            background-color: #0f0f0f;
+            border: 1px solid var(--dark-grey);
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #777;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        input, select, textarea {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #333;
+            color: var(--white);
+            padding: 10px 0;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-bottom-color: var(--gold);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .btn-container {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        button {
+            background-color: var(--gold);
+            color: var(--black);
+            border: none;
+            padding: 18px 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        button:hover {
+            background-color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .output-card {
+            margin-top: 60px;
+            background-color: #151515;
+            border: 1px solid var(--dark-grey);
+            padding: 40px;
+            display: none;
+            border-left: 4px solid var(--gold);
+        }
+
+        .output-card.active {
+            display: block;
+        }
+
+        .output-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        #promptOutput {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ccc;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid var(--dark-grey);
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #444;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-  <div class="brand-group">
-    <div class="meta-tag">{n8} Media × Built for Higgsfield AI</div>
-    <h1>Higgsfield Film Engine</h1>
-    <p>Premium Cinematic Intelligence Suite</p>
-  </div>
-  <div class="meta-tag">V3.0 LUXURY EDITION</div>
-</header>
-<main>
-  <div class="intro">
-    <h2>Define the Vision</h2>
-    <p>Craft high-fidelity cinematic prompts with precision parameters. V3 introduces refined typography and a minimalist luxury workspace designed for focused creative direction.</p>
-  </div>
-  <div class="form-container">
-    <div class="field-group full">
-      <span class="luxury-label">Atmosphere & Context</span>
-      <div class="input-grid">
-        <div class="field-group">
-          <input type="text" id="sceneNo" placeholder="Scene Reference (e.g. 01)" />
-        </div>
-        <div class="field-group">
-          <select id="vStyle">
-            <option value="">Visual Style</option>
-            <option value="Avant-Garde Noir">Avant-Garde Noir</option>
-            <option value="Hyper-Realistic Cinema">Hyper-Realistic Cinema</option>
-            <option value="Ethereal Dreamscape">Ethereal Dreamscape</option>
-            <option value="Brutalist Sci-Fi">Brutalist Sci-Fi</option>
-            <option value="Gothic Horror">Gothic Horror</option>
-          </select>
-        </div>
-        <div class="field-group full">
-          <textarea id="sceneAction" placeholder="Primary Action Statement"></textarea>
-        </div>
-        <div class="field-group full">
-          <input type="text" id="characterFocus" placeholder="Subject / Character Identity" />
-        </div>
-        <div class="field-group">
-          <select id="lightingMood">
-            <option value="Chiaroscuro">Chiaroscuro</option>
-            <option value="Golden Hour">Golden Hour</option>
-            <option value="Soft Volumetric">Soft Volumetric</option>
-            <option value="Harsh Neon">Harsh Neon</option>
-            <option value="High-Key Luxury">High-Key Luxury</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <select id="camMove">
-            <option value="Static Composition">Static Composition</option>
-            <option value="Cinematic Push">Cinematic Push</option>
-            <option value="Elegant Track">Elegant Track</option>
-            <option value="Fluid Tilt">Fluid Tilt</option>
-          </select>
-        </div>
-      </div>
-      <button class="luxury-btn" onclick="genV3()">Generate Manuscript</button>
-    </div>
-  </div>
-  <div class="display-container">
-    <div class="output-section" id="v3Output" style="display:none;">
-      <h3>Generated Manuscript</h3>
-      <div class="prompt-display" id="v3Prompt"></div>
-      <div class="copy-hint">PROMPT READY FOR HIGGSFIELD DEPLOYMENT</div>
-    </div>
-    <div class="scene-history">
-      <h3>Archive</h3>
-      <div id="v3History"><div class="empty-state">No manuscripts archived in this session.</div></div>
-    </div>
-  </div>
-</main>
-<footer>
-  <span>&copy; 2026 {n8} MEDIA × HIGGSFIELD</span>
-  <span>CALIBRATED FOR PRODUCTION GRADE OUTPUT</span>
-</footer>
-<script>
-  let archive = [];
-  function genV3() {
-    const sn = document.getElementById('sceneNo').value || '01';
-    const st = document.getElementById('vStyle').value || 'Hyper-Realistic Cinema';
-    const act = document.getElementById('sceneAction').value || 'Subject enters the frame.';
-    const char = document.getElementById('characterFocus').value || 'A solitary figure';
-    const mood = document.getElementById('lightingMood').value;
-    const cam = document.getElementById('camMove').value;
-    const prompt = `[ATMOSPHERE]
-${st}. ${mood} lighting. Deeply textured shadows and refined highlights. Cinematic grain.
+    <header>
+        <div class="brand-meta">{N8} MEDIA × BUILT FOR HIGGSFIELD AI</div>
+        <h1>HIGGSFIELD FILM ENGINE</h1>
+        <div class="subtitle">Precision AI Cinematography Suite</div>
+    </header>
 
-[COMPOSITION]
-Scene ${sn}. ${char}. ${act}.
+    <main>
+        <div class="form-container">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Scene No.</label>
+                    <input type="text" id="sceneNo" placeholder="SC-01">
+                </div>
+                <div class="input-group">
+                    <label>Visual Style</label>
+                    <select id="visualStyle">
+                        <option value="Hyper-Realistic Cinema">Hyper-Realistic Cinema</option>
+                        <option value="Neo-Noir Noir">Neo-Noir Noir</option>
+                        <option value="Kodak 35mm Film">Kodak 35mm Film</option>
+                        <option value="Anamorphic Sci-Fi">Anamorphic Sci-Fi</option>
+                        <option value="Vintage Documentary">Vintage Documentary</option>
+                    </select>
+                </div>
+                <div class="input-group full-width">
+                    <label>Scene Action</label>
+                    <textarea id="action" placeholder="Describe the character action and camera movement..."></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Lighting Mood</label>
+                    <select id="mood">
+                        <option value="Chiaroscuro">Chiaroscuro</option>
+                        <option value="Golden Hour">Golden Hour</option>
+                        <option value="Harsh Moonlight">Harsh Moonlight</option>
+                        <option value="Soft Volumetric">Soft Volumetric</option>
+                        <option value="Cold Clinical">Cold Clinical</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Duration</label>
+                    <select id="duration">
+                        <option value="5 Seconds">5 Seconds</option>
+                        <option value="10 Seconds">10 Seconds</option>
+                        <option value="15 Seconds">15 Seconds</option>
+                    </select>
+                </div>
+            </div>
+            <div class="btn-container">
+                <button onclick="generatePrompt()">Generate Prompt</button>
+            </div>
+        </div>
 
-[DIRECTION]
-Camera: ${cam}.
+        <div class="output-card" id="outputCard">
+            <div class="output-header">Generated Manuscript</div>
+            <div id="promptOutput"></div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 {N8} MEDIA PRODUCTION TOOLS | POWERED BY HIGGSFIELD AI
+    </footer>
+
+    <script>
+        function generatePrompt() {
+            const scene = document.getElementById('sceneNo').value || 'SC-01';
+            const style = document.getElementById('visualStyle').value;
+            const action = document.getElementById('action').value || 'A solitary figure walks through a rain-slicked alleyway.';
+            const mood = document.getElementById('mood').value;
+            const duration = document.getElementById('duration').value;
+
+            const prompt = `[PROMPT MANUSCRIPT]
+
+SCENE: ${scene}
+STYLE: ${style}
+LIGHTING: ${mood}
+DURATION: ${duration}
 
 [MASTER PROMPT]
-${st} cinematography, ${mood} mood. Professional ${cam.toLowerCase()} of ${char.toLowerCase()}, ${act.toLowerCase()}. Ultra-high-fidelity rendering. 8k resolution. Production grade.`;
-    document.getElementById('v3Prompt').textContent = prompt;
-    document.getElementById('v3Output').style.display = 'block';
-    archive.unshift({ sn, st, act: act.substring(0,40), time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) });
-    renderArchive();
-  }
-  function renderArchive() {
-    const list = document.getElementById('v3History');
-    if (archive.length === 0) return;
-    list.innerHTML = archive.map(a => `<div class="history-item"><span class="num">SCENE ${a.sn}</span><div class="title">${a.st}</div><div class="meta">${a.act}... &mdash; ${a.time}</div></div>`).join('');
-  }
-</script>
+${style} cinematography of ${action}. ${mood} lighting. Professional cinematic color grade. Ultra-detailed 8k texture. High dynamic range. Shot for Higgsfield AI film production.`;
+
+            document.getElementById('promptOutput').innerText = prompt;
+            document.getElementById('outputCard').classList.add('active');
+            
+            // Scroll to output
+            document.getElementById('outputCard').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
